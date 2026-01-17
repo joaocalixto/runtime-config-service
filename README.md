@@ -3,7 +3,7 @@
 ## Objetivo
 Este branch e um **projeto base** para a aula de refatoracao com Feature Flags.
 O aluno vai implementar a solucao em duas etapas:
-1) Versao **sem singleton** (ingenua).
+1) Versao **sem singleton**.
 2) Versao **com singleton** (refatorada).
 
 ## Estado atual do projeto
@@ -14,7 +14,7 @@ O aluno vai implementar a solucao em duas etapas:
 - As classes de servico e loader estao **intencionamente incompletas**.
 
 ## Requisitos do exercicio (o que fazer)
-### Parte 1 — Versao ingenua (sem singleton)
+### Parte 1 — Versao sem singleton
 - Implementar `config.FeatureFlagLoader`:
   - deve ler `feature-flags.properties` usando `FeatureFlagFileReader`;
   - cada nova instancia deve ler o arquivo novamente;
