@@ -9,7 +9,7 @@ public class Application {
     private static final Logger logger = LoggerFactory.getLogger(Application.class);
 
     public static void main(String[] args) {
-        logger.info("Starting application");
+        logger.info("Starting application (starter)");
 
         for (int i = 1; i <= 3; i++) {
             logger.info("--- Simulated request {} ---", i);
@@ -20,6 +20,6 @@ public class Application {
             orderService.placeOrder("ORD-" + i, price);
         }
 
-        logger.info("Application finished");
+        logger.info("Application finished (starter)");
     }
 }
