@@ -4,21 +4,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.FeatureFlagFileReader;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class PricingService {
     private static final Logger logger = LoggerFactory.getLogger(PricingService.class);
-    private static Map<String, Boolean> flagsResult = new HashMap<>();
+    FeatureFlagFileReader featureFlagFileReader = FeatureFlagFileReader.getInstance();
 
     public PricingService() {
         logger.info("Starting PricingService");
-        FeatureFlagFileReader featureFlagFileReader = new FeatureFlagFileReader();
-        this.flagsResult = featureFlagFileReader.readFromClasspath("feature-flags.properties");
     }
 
     public double calculatePrice(double basePrice) {
-        Boolean useDiscount = flagsResult.get("use-discount");
+        Boolean useDiscount = featureFlagFileReader.getFlagsResult("use-discount");
         if (useDiscount) {
             // 20% discount provided
             basePrice = basePrice * 0.8;

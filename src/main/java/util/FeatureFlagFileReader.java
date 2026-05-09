@@ -11,15 +11,23 @@ import java.util.Properties;
 
 public class FeatureFlagFileReader {
     private static final Logger logger = LoggerFactory.getLogger(FeatureFlagFileReader.class);
+    private static FeatureFlagFileReader INSTANCE;
+    private static Map<String, Boolean> flagsResult;
 
-    public Map<String, Boolean> readFromClasspath(String fileName) {
-        logger.info("Reading feature flags file: {}", fileName);
+    private final String FILE_NAME = "feature-flags.properties";
+
+    private FeatureFlagFileReader() {
+        flagsResult = readFromClasspath();
+    }
+
+    private Map<String, Boolean> readFromClasspath() {
+        logger.info("Reading feature flags file: {}", this.FILE_NAME);
         Properties properties = new Properties();
         Map<String, Boolean> result = new HashMap<>();
 
-        try (InputStream input = getClass().getClassLoader().getResourceAsStream(fileName)) {
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream(this.FILE_NAME)) {
             if (input == null) {
-                logger.warn("Feature flags file not found: {}", fileName);
+                logger.warn("Feature flags file not found: {}", this.FILE_NAME);
                 return result;
             }
             properties.load(input);
@@ -28,9 +36,20 @@ public class FeatureFlagFileReader {
             }
             logger.info("Parsed {} flags", result.size());
         } catch (IOException e) {
-            logger.error("Failed to read feature flags file: {}", fileName, e);
+            logger.error("Failed to read feature flags file: {}", this.FILE_NAME, e);
         }
 
         return result;
+    }
+
+    public Boolean getFlagsResult(String flagName) {
+        return flagsResult.get(flagName);
+    }
+
+    public static FeatureFlagFileReader getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new FeatureFlagFileReader();
+        }
+        return INSTANCE;
     }
 }
